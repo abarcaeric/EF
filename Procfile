@@ -1,0 +1,1 @@
+web: gunicorn EF_New:app
