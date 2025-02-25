@@ -7,7 +7,8 @@ from bs4 import BeautifulSoup
 import os
 
 TOKEN = "7539406137:AAEKVhg1M65H6Birs-RpCYObYeOAr6Yfq8g"
-chat_id = "@hechosesencialeschile"
+#chat_id = "@hechosesencialeschile"
+chat_id = "6697147223"
 timer = 30
 fecha_old = ''
 EEFF_file_url = ''
@@ -67,9 +68,9 @@ def scraping_loop():
                     
                     requests.post("https://api.telegram.org/bot"+TOKEN+"/sendMessage",
                         data={"chat_id": chat_id, "text": mensaje})
-                    fecha_old = fecha_segundo_envio
-                         
-            print('NO ENVIO')
+
+                    #fecha_old = fecha_segundo_envio
+
             time.sleep(timer)
 
         else:
