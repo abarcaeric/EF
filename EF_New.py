@@ -68,8 +68,7 @@ def scraping_loop():
                     
                     requests.post("https://api.telegram.org/bot"+TOKEN+"/sendMessage",
                         data={"chat_id": chat_id, "text": mensaje})
-
-                    #fecha_old = fecha_segundo_envio
+                    fecha_old = fecha_segundo_envio
 
             time.sleep(timer)
 
