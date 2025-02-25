@@ -6,9 +6,9 @@ from flask import Flask
 from bs4 import BeautifulSoup
 import os
 
-TOKEN = "7539406137:AAEKVhg1M65H6Birs-RpCYObYeOAr6Yfq8g"
-#chat_id = "@hechosesencialeschile"
-chat_id = "6697147223"
+TOKEN = "7539406137:AAEKVhg1M65H6Birs-RpCYObYeOAr6Yfq8g" #token acceso @BotFather 
+chat_id = "@hechosesencialeschile" #id grupo
+#chat_id = "6697147223" #id bot
 timer = 30
 fecha_old = ''
 EEFF_file_url = ''
