@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
 TOKEN = "7539406137:AAEKVhg1M65H6Birs-RpCYObYeOAr6Yfq8g" #token acceso @BotFather 
-#chat_id = "@hechosesencialeschile" #id grupo
-chat_id = "6697147223" #id bot
+chat_id = "@hechosesencialeschile" #id grupo
+#chat_id = "6697147223" #id bot
 timer = 30
 fecha_old = ''
 EEFF_file_url = ''
@@ -42,45 +42,37 @@ def scraping_loop():
                 urlEmpresa = str(hechos.find_all("td")[2].find_all("a")[0]).split('"')[1].replace('amp;', '')
 
                 # Recorrer empresas
-                #for valor in Empresas:
-                #    if fecha_old != fecha_segundo_envio and str(valor) == str(razon_social):
+                for valor in Empresas:
+                    if fecha_old != fecha_segundo_envio and str(valor) == str(razon_social):
 
-                urlPdf = "https://www.cmfchile.cl/institucional/mercados/" + urlEmpresa
-                responsePdf = requests.get(urlPdf, headers=headers, timeout=10)
+                        urlPdf = "https://www.cmfchile.cl/institucional/mercados/" + urlEmpresa
+                        responsePdf = requests.get(urlPdf, headers=headers, timeout=10)
 
-                if responsePdf.status_code == 200:
-                    soup = BeautifulSoup(responsePdf.content, "html.parser")
-                    download_links = soup.find_all("a", href=True)
+                        if responsePdf.status_code == 200:
+                            soup = BeautifulSoup(responsePdf.content, "html.parser")
+                            download_links = soup.find_all("a", href=True)
 
-                    for link in download_links:
-                        if "Estados financieros (PDF)" in link.text.strip():
-                            EEFF_file_url = "https://www.cmfchile.cl/institucional/mercados/" + link["href"]
-                        if "Análisis Razonado" in link.text.strip():
-                            AARR_file_url = "https://www.cmfchile.cl/institucional/mercados/" + link["href"]
+                            for link in download_links:
+                                if "Estados financieros (PDF)" in link.text.strip():
+                                    EEFF_file_url = "https://www.cmfchile.cl/institucional/mercados/" + link["href"]
+                                if "Análisis Razonado" in link.text.strip():
+                                    AARR_file_url = "https://www.cmfchile.cl/institucional/mercados/" + link["href"]
 
-                else:
-                    print(f"Error al acceder a la página de la empresa: {responsePdf.status_code}")
+                        else:
+                            print(f"Error al acceder a la página de la empresa: {responsePdf.status_code}")
 
-                
-                
-                
-                #mensaje = (f"NUEVO ESTADO FINANCIERO\n\nFecha: {fecha_segundo_envio}\n"
-                #            f"Empresa: {razon_social}\nTipo Balance: {tipo_balance}\n"
-                #            f"Estado Financiero: <a href='{EEFF_file_url}'>Estado Financiero PDF</a>\n"
-                #            f"Análisis Razonado: <a href='{AARR_file_url}'>Análisis Razonado PDF</a>")
-                
-                mensaje = (f"📢 <b>NUEVO ESTADO FINANCIERO</b> 📢 \n\n"
-                            f"🏢 <b>Empresa:</b> {razon_social}\n"
-                            f"🗓 <b>Periodo:</b> 4T 2024 (Anual)\n"
-                            f"📅 <b>Fecha Emisión:</b> {fecha_segundo_envio}\n"                            
-                            f"📂 <b>Tipo Balance:</b> {tipo_balance}\n"
-                            f"📄 <b>Estado Financiero:</b> <a href='{EEFF_file_url}'>Estado Financiero PDF</a>\n"
-                            f"📊 <b>Análisis Razonado:</b> <a href='{AARR_file_url}'>Análisis Razonado PDF</a>")
-                print (mensaje)
-                requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-                                data={"chat_id": chat_id, "text": mensaje, "parse_mode": "HTML"})
+                        mensaje = (f"📢 <b>NUEVO ESTADO FINANCIERO</b> 📢 \n\n"
+                                    f"🏢 <b>Empresa :</b> {razon_social}\n"
+                                    f"🗓 <b>Periodo :</b> 4T 2024 (Anual)\n"
+                                    f"📅 <b>Fecha Emisión :</b> {fecha_segundo_envio}\n"                            
+                                    f"📂 <b>Tipo Balance :</b> {tipo_balance}\n"
+                                    f"📄 <b>Estado Financiero :</b> <a href='{EEFF_file_url}'>EEFF PDF</a>\n"
+                                    f"📊 <b>Análisis Razonado :</b> <a href='{AARR_file_url}'>AARR PDF</a>")
+                        #print (mensaje)
+                        requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+                                        data={"chat_id": chat_id, "text": mensaje, "parse_mode": "HTML"})
 
-                fecha_old = fecha_segundo_envio
+                        fecha_old = fecha_segundo_envio
 
             else:
                 print('Error en la petición:', respuesta.status_code)
