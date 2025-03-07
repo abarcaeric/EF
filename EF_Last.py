@@ -61,12 +61,24 @@ def scraping_loop():
                 else:
                     print(f"Error al acceder a la página de la empresa: {responsePdf.status_code}")
 
-                mensaje = (f"NUEVO ESTADO FINANCIERO\n\nFecha: {fecha_segundo_envio}\n"
-                            f"Empresa: {razon_social}\nTipo Balance: {tipo_balance}\n"
-                            f"Estado Financiero: {EEFF_file_url}\nAnálisis Razonado: {AARR_file_url}")
-
+                
+                
+                
+                #mensaje = (f"NUEVO ESTADO FINANCIERO\n\nFecha: {fecha_segundo_envio}\n"
+                #            f"Empresa: {razon_social}\nTipo Balance: {tipo_balance}\n"
+                #            f"Estado Financiero: <a href='{EEFF_file_url}'>Estado Financiero PDF</a>\n"
+                #            f"Análisis Razonado: <a href='{AARR_file_url}'>Análisis Razonado PDF</a>")
+                
+                mensaje = (f"📢 <b>NUEVO ESTADO FINANCIERO</b> 📢 \n\n"
+                            f"🏢 <b>Empresa:</b> {razon_social}\n"
+                            f"🗓 <b>Periodo:</b> 4T 2024 (Anual)\n"
+                            f"📅 <b>Fecha Emisión:</b> {fecha_segundo_envio}\n"                            
+                            f"📂 <b>Tipo Balance:</b> {tipo_balance}\n"
+                            f"📄 <b>Estado Financiero:</b> <a href='{EEFF_file_url}'>Estado Financiero PDF</a>\n"
+                            f"📊 <b>Análisis Razonado:</b> <a href='{AARR_file_url}'>Análisis Razonado PDF</a>")
+                print (mensaje)
                 requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-                                data={"chat_id": chat_id, "text": mensaje})
+                                data={"chat_id": chat_id, "text": mensaje, "parse_mode": "HTML"})
 
                 fecha_old = fecha_segundo_envio
 
@@ -100,3 +112,10 @@ def home():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8083))  # Usa el puerto de Render o 8083 por defecto
     app.run(host='0.0.0.0', port=port)
+
+
+
+
+
+
+
